@@ -211,9 +211,9 @@ open class TagView: UIButton {
         }
         else {
             titleEdgeInsets.right = paddingX
-            if let img = imageView?.image {
-                imageEdgeInsets.left -= img.size.width
-                titleEdgeInsets.left = paddingX * 2
+            if let _ = imageView?.image {
+                imageEdgeInsets.left = -paddingX
+                titleEdgeInsets.left = paddingX
             }
         }
     }

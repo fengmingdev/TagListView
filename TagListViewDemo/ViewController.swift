@@ -16,7 +16,7 @@ class ViewController: UIViewController, TagListViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tagListView.enableRemoveButton = false
         tagListView.delegate = self
         tagListView.addTag("TagListView")
         tagListView.addTag("TEAChart")
