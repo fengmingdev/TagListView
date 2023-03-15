@@ -27,6 +27,8 @@ tagListView.minWidth = 57
 tagListView.addTag("TagListView")
 tagListView.addTags(["Add", "two", "tags"])
 
+tagListView.addIconTag((UIImage(named: "plaza_topic_text")!, "我是话题"))
+
 tagListView.insertTag("This should be the second tag", at: 1)
 
 tagListView.setTitle("New Title", at: 6) // to replace the title a tag

@@ -366,7 +366,6 @@ open class TagListView: UIView {
         
         return tagView
     }
-
     @discardableResult
     open func addTag(_ title: String) -> TagView {
         defer { rearrangeViews() }
@@ -456,5 +455,52 @@ open class TagListView: UIView {
         if let tagView = closeButton.tagView {
             delegate?.tagRemoveButtonPressed?(tagView.currentTitle ?? "", tagView: tagView, sender: self)
         }
+    }
+    
+    
+    // MARK: IconTagView
+    
+    @discardableResult
+    open func addIconTag(_ title: (UIImage, String)) -> TagView {
+        defer { rearrangeViews() }
+        return addTagView(createIconTagView(title))
+    }
+    
+    @discardableResult
+    open func addIconTags(_ titles: [(UIImage, String)]) -> [TagView] {
+        return addTagViews(titles.map(createIconTagView))
+    }
+    
+    private func createIconTagView(_ title: (UIImage, String)) -> TagView {
+        let tagView = TagView.init(title: title)
+        
+        tagView.textColor = textColor
+        tagView.selectedTextColor = selectedTextColor
+        tagView.tagBackgroundColor = tagBackgroundColor
+        tagView.highlightedBackgroundColor = tagHighlightedBackgroundColor
+        tagView.selectedBackgroundColor = tagSelectedBackgroundColor
+        tagView.titleLineBreakMode = tagLineBreakMode
+        tagView.cornerRadius = cornerRadius
+        tagView.borderWidth = borderWidth
+        tagView.borderColor = borderColor
+        tagView.selectedBorderColor = selectedBorderColor
+        tagView.paddingX = paddingX
+        tagView.paddingY = paddingY
+        tagView.textFont = textFont
+        tagView.removeIconLineWidth = removeIconLineWidth
+        tagView.removeButtonIconSize = removeButtonIconSize
+        tagView.enableRemoveButton = enableRemoveButton
+        tagView.removeIconLineColor = removeIconLineColor
+        tagView.addTarget(self, action: #selector(tagPressed(_:)), for: .touchUpInside)
+        tagView.removeButton.addTarget(self, action: #selector(removeButtonPressed(_:)), for: .touchUpInside)
+        
+        // On long press, deselect all tags except this one
+        tagView.onLongPress = { [unowned self] this in
+            self.tagViews.forEach {
+                $0.isSelected = $0 == this
+            }
+        }
+        
+        return tagView
     }
 }

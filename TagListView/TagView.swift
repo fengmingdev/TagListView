@@ -194,26 +194,48 @@ open class TagView: UIButton {
         if enableRemoveButton {
             size.width += removeButtonIconSize + paddingX
         }
+        if let img = imageView?.image {
+            size.width += paddingX + img.size.width
+        }
         return size
     }
     
     private func updateRightInsets() {
         if enableRemoveButton {
-            titleEdgeInsets.right = paddingX  + removeButtonIconSize + paddingX
+            titleEdgeInsets.right = paddingX + removeButtonIconSize + paddingX
+            
+            if let img = imageView?.image {
+                imageEdgeInsets.left = -img.size.width
+                titleEdgeInsets.left = paddingX * 2
+            }
         }
         else {
             titleEdgeInsets.right = paddingX
+            if let img = imageView?.image {
+                imageEdgeInsets.left -= img.size.width
+                titleEdgeInsets.left = paddingX * 2
+            }
         }
     }
     
     open override func layoutSubviews() {
         super.layoutSubviews()
+        
         if enableRemoveButton {
             removeButton.frame.size.width = paddingX + removeButtonIconSize + paddingX
             removeButton.frame.origin.x = self.frame.width - removeButton.frame.width
             removeButton.frame.size.height = self.frame.height
             removeButton.frame.origin.y = 0
         }
+    }
+    
+    // MARK: IconTag
+    public init(title: (UIImage, String)) {
+        super.init(frame: CGRect.zero)
+        setImage(title.0, for: UIControl.State())
+        setTitle(title.1, for: UIControl.State())
+        
+        setupView()
     }
 }
 

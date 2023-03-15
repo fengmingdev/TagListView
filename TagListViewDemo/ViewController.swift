@@ -33,7 +33,7 @@ class ViewController: UIViewController, TagListViewDelegate {
         tagView.onTap = { tagView in
             print("Don’t tap me!")
         }
-
+        tagListView.addIconTag((UIImage(named: "plaza_topic_text")!, "我是话题"))
         tagListView.insertTag("This should be the third tag", at: 2)
         
         biggerTagListView.delegate = self
